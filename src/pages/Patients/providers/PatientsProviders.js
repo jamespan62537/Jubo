@@ -25,13 +25,26 @@ export const usePatients = () => {
 const PatientsProvider = ({ children }) => {
   const [patientsList, setPatientsList] = useState([]);
   const [ordersList, setOrdersList] = useState([]);
+  const [isShowOrdersDialog, setIsShowOrdersDialog] = useState(false);
 
   const handleInit = useCallback(async () => {
-    const [patients, orders] = await Promise.all([getPatients(), getOrders()]);
+    const patients = await getPatients();
 
     setPatientsList(patients);
+  }, []);
+
+  const handleGetOrdersByOrderId = useCallback(async ({ orderId }) => {
+    const orders = await getOrders({ orderId });
     setOrdersList(orders);
   }, []);
+
+  const handleIsShowOrderDialog = useCallback(
+    async ({ isShow, orderId }) => {
+      if (isShow) await handleGetOrdersByOrderId({ orderId });
+      setIsShowOrdersDialog(isShow);
+    },
+    [handleGetOrdersByOrderId]
+  );
 
   useEffect(() => {
     handleInit();
@@ -41,8 +54,10 @@ const PatientsProvider = ({ children }) => {
     () => ({
       patientsList,
       ordersList,
+      isShowOrdersDialog,
+      handleIsShowOrderDialog,
     }),
-    [ordersList, patientsList]
+    [ordersList, patientsList, isShowOrdersDialog, handleIsShowOrderDialog]
   );
 
   return <context.Provider value={contextData}>{children}</context.Provider>;

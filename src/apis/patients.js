@@ -1,5 +1,9 @@
-import { handleFetchData } from '.';
+import { handleFetchData } from ".";
 
-export const getPatients = () => handleFetchData({ url: 'patients' });
+export const getPatients = async () =>
+  await handleFetchData({ url: "patients" });
 
-export const getOrders = () => handleFetchData({ url: 'orders' });
+export const getOrders = async ({ orderId }) => {
+  const orders = await handleFetchData({ url: "orders" });
+  return orders[orderId] || [];
+};
