@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useRef } from "react";
 // mui
 import { Stack, TextareaAutosize } from "@mui/material";
 
@@ -8,21 +8,20 @@ import CardComponent from "../../../components/CardComponent";
 
 const OrdersDialogComponent = ({ isShow, ordersList, onClose }) => {
   const [isShowAddOrder, setIsShowAddOrder] = useState(false);
-  const [addOrderText, setAddOrderText] = useState("");
+  const addOrderTextRef = useRef("");
 
   const handleisShowAddOrder = useCallback(
     ({ isShow }) => setIsShowAddOrder(isShow),
     []
   );
 
-  const handleChangeOrderText = useCallback(
-    (value) => setAddOrderText(value),
-    []
-  );
+  const handleChangeOrderText = useCallback((value) => {
+    addOrderTextRef.current = value;
+  }, []);
 
   const handleCloseDialog = useCallback(() => {
     setIsShowAddOrder(false);
-    setAddOrderText("");
+    addOrderTextRef.current = "";
     onClose();
   }, [onClose]);
 
@@ -48,7 +47,6 @@ const OrdersDialogComponent = ({ isShow, ordersList, onClose }) => {
             style={{ resize: "none", width: "20%" }}
             minRows={1}
             placeholder="Type Your Answer Here"
-            value={addOrderText}
             onChange={(e) => handleChangeOrderText(e.target.value || "")}
           />
         ) : null}
