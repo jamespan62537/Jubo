@@ -1,3 +1,4 @@
+import React from "react";
 import {
   Dialog,
   DialogTitle,
@@ -16,6 +17,7 @@ const DialogComponent = ({
   children,
 }) => {
   const BootstrapDialog = styled(Dialog)(({ theme }) => ({
+    height: "100% !important",
     "& .MuiDialogContent-root": {
       padding: theme.spacing(2),
     },
@@ -23,6 +25,7 @@ const DialogComponent = ({
       padding: theme.spacing(1),
     },
   }));
+
   return (
     <BootstrapDialog open={isShow} onClose={onClose} fullWidth maxWidth="lg">
       <DialogTitle id="customized-dialog-title" sx={{ m: 0, p: 2 }}>
@@ -48,4 +51,4 @@ const DialogComponent = ({
   );
 };
 
-export default DialogComponent;
+export default React.memo(DialogComponent);

@@ -3,17 +3,15 @@ import { Box, Stack } from "@mui/material";
 
 // hook
 import { usePatients } from "./providers/PatientsProviders";
+import { useDialog } from "./providers/DialogProvider";
 // component
 import CardComponent from "../../components/CardComponent";
-import DialogComponent from "../../components/DialogComponent";
+import OrdersDialogComponent from "./components/OrdersDialogComponent";
 
 const Patients = () => {
-  const {
-    patientsList,
-    ordersList,
-    isShowOrdersDialog,
-    handleIsShowOrderDialog,
-  } = usePatients();
+  const { patientsList } = usePatients();
+  const { ordersList, isShowOrdersDialog, handleIsShowOrderDialog } =
+    useDialog();
 
   return (
     <Box sx={{ width: "100%", height: "100%", py: "20px" }}>
@@ -36,24 +34,11 @@ const Patients = () => {
           />
         ))}
       </Stack>
-      <DialogComponent
+      <OrdersDialogComponent
         isShow={isShowOrdersDialog}
-        title="Orders"
         onClose={() => handleIsShowOrderDialog({ isShow: false })}
-        secondaryTitle="新增"
-        onSecondary={() => {}}
-      >
-        <Stack
-          direction="column"
-          justifyContent="center"
-          alignItems="center"
-          spacing={4}
-        >
-          {ordersList.map((order) => (
-            <CardComponent key={order.id} content={order?.message || ""} />
-          ))}
-        </Stack>
-      </DialogComponent>
+        ordersList={ordersList}
+      />
     </Box>
   );
 };

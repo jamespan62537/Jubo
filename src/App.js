@@ -1,10 +1,13 @@
-import PatientsProvider from './pages/Patients/providers/PatientsProviders';
-import Patients from './pages/Patients';
+import PatientsProvider from "./pages/Patients/providers/PatientsProviders";
+import DialogProvider from "./pages/Patients/providers/DialogProvider";
+import Patients from "./pages/Patients";
 
 function App() {
   return (
     <PatientsProvider>
-      <Patients />
+      <DialogProvider>
+        <Patients />
+      </DialogProvider>
     </PatientsProvider>
   );
 }
