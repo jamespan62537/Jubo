@@ -12,7 +12,9 @@ const DialogComponent = ({
   isShow,
   title,
   onClose,
+  onOk,
   onSecondary,
+  isDisableOk,
   secondaryTitle,
   children,
 }) => {
@@ -27,7 +29,7 @@ const DialogComponent = ({
   }));
 
   return (
-    <BootstrapDialog open={isShow} onClose={onClose} fullWidth maxWidth="lg">
+    <Dialog open={isShow} onClose={onClose} fullWidth maxWidth="lg">
       <DialogTitle id="customized-dialog-title" sx={{ m: 0, p: 2 }}>
         {title}
       </DialogTitle>
@@ -46,8 +48,11 @@ const DialogComponent = ({
       <DialogContent>{children}</DialogContent>
       <DialogActions>
         <Button onClick={onClose}>關閉</Button>
+        <Button onClick={onOk} disabled={isDisableOk}>
+          儲存
+        </Button>
       </DialogActions>
-    </BootstrapDialog>
+    </Dialog>
   );
 };
 

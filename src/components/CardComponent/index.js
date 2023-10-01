@@ -1,3 +1,4 @@
+import React from "react";
 // mui
 import {
   Button,
@@ -33,4 +34,4 @@ const CardComponent = ({ content, onClick }) => {
   );
 };
 
-export default CardComponent;
+export default React.memo(CardComponent);
