@@ -6,7 +6,13 @@ import { Stack, TextareaAutosize } from "@mui/material";
 import DialogComponent from "../../../components/DialogComponent";
 import CardComponent from "../../../components/CardComponent";
 
-const OrdersDialogComponent = ({ isShow, ordersList, onClose }) => {
+const OrdersDialogComponent = ({
+  isShow,
+  orderId,
+  ordersList,
+  onClose,
+  onAddOrder,
+}) => {
   const [isShowAddOrder, setIsShowAddOrder] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
 
@@ -25,12 +31,18 @@ const OrdersDialogComponent = ({ isShow, ordersList, onClose }) => {
     onClose();
   }, [onClose]);
 
+  const handleAddOrder = useCallback(async () => {
+    await onAddOrder({ orderId, message: addOrderTextRef.current });
+    addOrderTextRef.current = "";
+    setIsShowAddOrder(false);
+  }, [orderId,  onAddOrder]);
+
   return (
     <DialogComponent
       isShow={isShow}
       title="醫囑列表"
       onClose={handleCloseDialog}
-      onOk={() => {}}
+      onOk={handleAddOrder}
       isDisableOk={!isEditing}
       secondaryTitle="新增"
       onSecondary={handleShowAddOrder}
@@ -44,14 +56,14 @@ const OrdersDialogComponent = ({ isShow, ordersList, onClose }) => {
         {ordersList.map((order) => (
           <CardComponent key={order.id} content={order?.message || ""} />
         ))}
-        {isShowAddOrder ? (
+        {isShowAddOrder && (
           <TextareaAutosize
             style={{ resize: "none", width: "20%" }}
             minRows={1}
             placeholder="Type Your Answer Here"
             onChange={(e) => handleChangeOrderText(e.target.value || "")}
           />
-        ) : null}
+        )}
       </Stack>
     </DialogComponent>
   );

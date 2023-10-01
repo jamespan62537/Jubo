@@ -7,7 +7,7 @@ import {
 } from "react";
 
 // api
-import { getOrders } from "../../../apis/patients";
+import { getOrders, addOrder } from "../../../apis/patients";
 
 const context = createContext(undefined);
 
@@ -23,6 +23,7 @@ export const useDialog = () => {
 
 const DialogProvider = ({ children }) => {
   const [ordersList, setOrdersList] = useState([]);
+  const [currentOrderId, setCurrentOrderId] = useState(null);
   const [isShowOrdersDialog, setIsShowOrdersDialog] = useState(false);
 
   const handleGetOrdersByOrderId = useCallback(async ({ orderId }) => {
@@ -33,18 +34,33 @@ const DialogProvider = ({ children }) => {
   const handleIsShowOrderDialog = useCallback(
     async ({ isShow, orderId }) => {
       if (isShow) await handleGetOrdersByOrderId({ orderId });
+      if (!isShow) setCurrentOrderId(null);
+      setCurrentOrderId(orderId);
       setIsShowOrdersDialog(isShow);
     },
     [handleGetOrdersByOrderId]
   );
 
+  const handleAddOrder = useCallback(async ({ orderId, message }) => {
+    const newOrders = await addOrder({ orderId, message });
+    setOrdersList(newOrders);
+  }, []);
+
   const contextData = useMemo(
     () => ({
       ordersList,
+      currentOrderId,
       isShowOrdersDialog,
       handleIsShowOrderDialog,
+      handleAddOrder,
     }),
-    [ordersList, isShowOrdersDialog, handleIsShowOrderDialog]
+    [
+      ordersList,
+      currentOrderId,
+      isShowOrdersDialog,
+      handleIsShowOrderDialog,
+      handleAddOrder,
+    ]
   );
 
   return <context.Provider value={contextData}>{children}</context.Provider>;

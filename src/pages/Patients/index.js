@@ -10,8 +10,13 @@ import OrdersDialogComponent from "./components/OrdersDialogComponent";
 
 const Patients = () => {
   const { patientsList } = usePatients();
-  const { ordersList, isShowOrdersDialog, handleIsShowOrderDialog } =
-    useDialog();
+  const {
+    ordersList,
+    currentOrderId,
+    isShowOrdersDialog,
+    handleIsShowOrderDialog,
+    handleAddOrder,
+  } = useDialog();
 
   return (
     <Box sx={{ width: "100%", height: "100%", py: "20px" }}>
@@ -36,7 +41,9 @@ const Patients = () => {
       </Stack>
       <OrdersDialogComponent
         isShow={isShowOrdersDialog}
+        orderId={currentOrderId}
         onClose={() => handleIsShowOrderDialog({ isShow: false })}
+        onAddOrder={handleAddOrder}
         ordersList={ordersList}
       />
     </Box>

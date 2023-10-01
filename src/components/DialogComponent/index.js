@@ -6,7 +6,6 @@ import {
   DialogActions,
   Button,
 } from "@mui/material";
-import { styled } from "@mui/material/styles";
 
 const DialogComponent = ({
   isShow,
@@ -18,15 +17,6 @@ const DialogComponent = ({
   secondaryTitle,
   children,
 }) => {
-  const BootstrapDialog = styled(Dialog)(({ theme }) => ({
-    height: "100% !important",
-    "& .MuiDialogContent-root": {
-      padding: theme.spacing(2),
-    },
-    "& .MuiDialogActions-root": {
-      padding: theme.spacing(1),
-    },
-  }));
 
   return (
     <Dialog open={isShow} onClose={onClose} fullWidth maxWidth="lg">
