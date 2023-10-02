@@ -41,10 +41,13 @@ const DialogProvider = ({ children }) => {
     [handleGetOrdersByOrderId]
   );
 
-  const handleAddOrder = useCallback(async ({ orderId, message }) => {
-    const newOrders = await addOrder({ orderId, message });
-    setOrdersList(newOrders);
-  }, []);
+  const handleAddOrder = useCallback(
+    async ({ orderId, message }) => {
+      const newOrders = await addOrder({ orderId, message });
+      setOrdersList([...ordersList, newOrders]);
+    },
+    [ordersList]
+  );
 
   const contextData = useMemo(
     () => ({

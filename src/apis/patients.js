@@ -9,9 +9,9 @@ export const getOrders = async ({ orderId }) => {
 };
 
 export const addOrder = async ({ orderId, message }) => {
-  const orders = await handleFetchData({
+  const newOrder = await handleFetchData({
     url: "addOrder",
     queries: { orderId, message },
   });
-  return orders[orderId] || [];
+  return newOrder;
 };
